@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'rest_framework',
     'drf_yasg',
-    'django_heroku'
+    'gunicorn'
 ]
 
 MIDDLEWARE = [
