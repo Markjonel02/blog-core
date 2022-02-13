@@ -1,10 +1,7 @@
-from django.shortcuts import render
 from rest_framework import generics, permissions, response, status
-
 from blog import settings
 from .models import Identity
 from .serializers import RegisterSerializer, ProfileSerializer
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, TokenHasScope
 from oauth2_provider.models import (
     Application,
     RefreshToken,
@@ -61,6 +58,9 @@ class RegisterView(generics.CreateAPIView):
         user.set_password(password)
         user.save()
 
+        # create identity/profile
+        Identity.objects.create(user=user)
+
         oauth_token, refresh_token = self.create_access_token(
             user)
 
@@ -87,6 +87,10 @@ class ProfileView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         user = self.request.user
         if Identity.objects.filter(user=user).exists():
+            return user.identity
+        else:
+            user.identity = Identity(user=user)
+            user.identity.save()
             return user.identity
 
     def get_serializer_context(self):

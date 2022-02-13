@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import django
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from drf_yasg.views import get_schema_view
@@ -38,3 +40,10 @@ urlpatterns = [
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('api/', include('api.urls', namespace='api')),
 ]
+
+
+if django.conf.settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns = [path('__debug__/', include(debug_toolbar.urls))] + urlpatterns
+    urlpatterns += static(django.conf.settings.MEDIA_URL, document_root=django.conf.settings.MEDIA_ROOT)
