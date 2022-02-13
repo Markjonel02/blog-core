@@ -3,6 +3,18 @@ from django.contrib.auth.models import User
 
 from identity.models import Identity
 
+from blog import settings
+from oauth2_provider.models import (
+    Application,
+    RefreshToken,
+    AccessToken
+)
+from datetime import (
+    datetime,
+    timedelta
+)
+from django.utils.crypto import get_random_string
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     # set all fields required and model
@@ -34,7 +46,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
 
     class Meta:
         model = Identity
