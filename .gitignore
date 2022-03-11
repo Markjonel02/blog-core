@@ -1,0 +1,10 @@
+*.pyc
+env/
+*.sqlite3
+.idea/
+.DS_Store
+/media/
+/static/
+env/
+venv/
+identifier.sqlite

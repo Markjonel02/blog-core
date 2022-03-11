@@ -25,6 +25,6 @@ class Identity(models.Model):
     objects = ProfileManager()
 
     def __str__(self):
-        return self.user.username
+        return f'{self.user.first_name} {self.user.last_name}'
 
 
